@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Team Management App</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -21,8 +22,10 @@
             <div id="add-player-form">
                 <input type="text" id="player-name" placeholder="Player Name">
                 <input type="number" id="player-skill" min="1" max="5" placeholder="Skill Level">
-                <input type="file" id="player-image">
                 <button onclick="addPlayer()">Add Player</button>
+            </div>
+            <div id="pre-existing-players">
+                <button onclick="autoAddPlayers()">Add 18 Famous Players</button>
             </div>
             <div id="player-list">
                 <!-- Player list will be populated here -->
