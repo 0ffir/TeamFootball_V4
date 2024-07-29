@@ -32,6 +32,9 @@
             <button type="submit" id="add-player-button">Add Player</button>
         </form>
         <h3 id="player-list-title">Player List</h3>
+        <select id="existingPlayers" onchange="selectPlayer()">
+            <option value="">Choose existing player</option>
+        </select>
         <ul id="playerList"></ul>
         <button id="createTeams">Create Teams</button>
         <div id="teams"></div>
