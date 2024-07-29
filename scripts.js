@@ -1,3 +1,5 @@
+const softwareVersion = "1.0.0";
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
@@ -69,6 +71,7 @@ playerForm.addEventListener('submit', function(event) {
         players.push(player);
         updatePlayerList();
     }
+    updatePlayerCount();
 });
 
 function updatePlayerList() {
@@ -78,12 +81,32 @@ function updatePlayerList() {
         li.innerHTML = `
             ${player.name} - Level: ${player.level}
             ${player.image ? `<img src="${player.image}" alt="${player.name}" style="width: 50px; height: 50px; border-radius: 50%;">` : ''}
+            <button onclick="removePlayer(${index})">Remove</button>
         `;
         playerList.appendChild(li);
     });
+    updatePlayerCount();
+}
+
+function removePlayer(index) {
+    const removedPlayer = players.splice(index, 1)[0];
+    updatePlayerList();
+    addPlayerToDropdown(removedPlayer);
+    updatePlayerCount();
+}
+
+function updatePlayerCount() {
+    const count = players.length;
+    const remaining = 18 - count;
+    document.getElementById('playerCount').innerText = `Players chosen: ${count}/18. ${remaining > 0 ? `${remaining} more needed.` : 'Ready to create teams!'}`;
 }
 
 document.getElementById('createTeams').addEventListener('click', function() {
+    if (players.length !== 18) {
+        alert(`Please choose ${18 - players.length} more players to create teams.`);
+        return;
+    }
+    
     const teams = [[], [], []];
     players.sort((a, b) => b.level - a.level);
     
@@ -118,7 +141,10 @@ function changeLanguage() {
         loginButton: document.getElementById('login-button'),
         enterPlayersTitle: document.getElementById('enter-players-title'),
         addPlayerButton: document.getElementById('add-player-button'),
-        playerListTitle: document.getElementById('player-list-title')
+        playerListTitle: document.getElementById('player-list-title'),
+        createTeamsButton: document.getElementById('createTeams'),
+        playerCount: document.getElementById('playerCount'),
+        version: document.getElementById('version')
     };
     
     if (language === 'he') {
@@ -128,6 +154,9 @@ function changeLanguage() {
         elements.enterPlayersTitle.innerText = 'הכנס שחקנים';
         elements.addPlayerButton.innerText = 'הוסף שחקן';
         elements.playerListTitle.innerText = 'רשימת שחקנים';
+        elements.createTeamsButton.innerText = 'צור קבוצות';
+        elements.playerCount.innerText = 'שחקנים שנבחרו: 0/18. צריך עוד 18.';
+        elements.version.innerText = `גרסת תוכנה: ${softwareVersion}`;
         document.getElementById('username').placeholder = 'שם משתמש';
         document.getElementById('password').placeholder = 'סיסמה';
         document.getElementById('playerName').placeholder = 'שם השחקן';
@@ -140,6 +169,9 @@ function changeLanguage() {
         elements.enterPlayersTitle.innerText = 'Enter Players';
         elements.addPlayerButton.innerText = 'Add Player';
         elements.playerListTitle.innerText = 'Player List';
+        elements.createTeamsButton.innerText = 'Create Teams';
+        elements.playerCount.innerText = 'Players chosen: 0/18. 18 more needed.';
+        elements.version.innerText = `Software Version: ${softwareVersion}`;
         document.getElementById('username').placeholder = 'Username';
         document.getElementById('password').placeholder = 'Password';
         document.getElementById('playerName').placeholder = 'Player Name';
@@ -151,11 +183,15 @@ function changeLanguage() {
 function populateExistingPlayers() {
     const select = document.getElementById('existingPlayers');
     existingPlayers.forEach(player => {
-        const option = document.createElement('option');
-        option.value = player.name;
-        option.innerText = `${player.name} - Level: ${player.level}`;
-        select.appendChild(option);
+        addPlayerToDropdown(player);
     });
+}
+
+function addPlayerToDropdown(player) {
+    const option = document.createElement('option');
+    option.value = player.name;
+    option.innerText = `${player.name} - Level: ${player.level}`;
+    document.getElementById('existingPlayers').appendChild(option);
 }
 
 function selectPlayer() {
@@ -165,9 +201,40 @@ function selectPlayer() {
         if (selectedPlayer) {
             players.push(selectedPlayer);
             updatePlayerList();
+            removePlayerFromDropdown(selectedName);
         }
     }
 }
+
+function removePlayerFromDropdown(playerName) {
+    const select = document.getElementById('existingPlayers');
+    const options = Array.from(select.options);
+    options.forEach(option => {
+        if (option.value === playerName) {
+            select.removeChild(option);
+        }
+    });
+    select.value = '';
+}
+
+function chooseRandomPlayers() {
+    if (players.length >= 18) {
+        alert('You already have 18 players.');
+        return;
+    }
+
+    const remainingPlayers = existingPlayers.filter(player => !players.includes(player));
+    while (players.length < 18 && remainingPlayers.length > 0) {
+        const randomIndex = Math.floor(Math.random() * remainingPlayers.length);
+        const randomPlayer = remainingPlayers.splice(randomIndex, 1)[0];
+        players.push(randomPlayer);
+        removePlayerFromDropdown(randomPlayer.name);
+    }
+    updatePlayerList();
+}
+
+document.getElementById('existingPlayers').addEventListener('change', selectPlayer);
+document.getElementById('randomPlayers').addEventListener('click', chooseRandomPlayers);
 
 // Initialize language to English and populate existing players
 changeLanguage();
