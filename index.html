@@ -3,72 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football Team Management App</title>
+    <title>Football Team App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Football Team Management App</h1>
-        <div id="language-switcher">
-            <button onclick="switchLanguage('en')">English</button>
-            <button onclick="switchLanguage('he')">Hebrew</button>
-        </div>
-    </header>
-
-    <main>
-        <section id="player-management">
-            <h2>Player Management</h2>
-            <div id="add-player-form">
-                <input type="text" id="player-name" placeholder="Player Name">
-                <input type="number" id="player-skill" min="1" max="5" placeholder="Skill Level">
-                <button onclick="addPlayer()">Add Player</button>
-            </div>
-            <div id="pre-existing-players">
-                <button onclick="autoAddPlayers()">Add 18 Famous Players</button>
-            </div>
-            <div id="player-list">
-                <!-- Player list will be populated here -->
-            </div>
-            <div id="player-count">
-                <!-- Player count will be displayed here -->
-            </div>
-        </section>
-
-        <section id="team-creation">
-            <h2>Team Creation</h2>
-            <button onclick="createTeams()">Create Teams</button>
-            <button onclick="regenerateTeams()">Regenerate Teams</button>
-            <div id="teams">
-                <!-- Teams will be displayed here -->
-            </div>
-        </section>
-
-        <section id="game-data-entry">
-            <h2>Game Data Entry</h2>
-            <div id="game-form">
-                <select id="team1-select">
-                    <!-- Team options will be populated here -->
-                </select>
-                <select id="team2-select">
-                    <!-- Team options will be populated here -->
-                </select>
-                <div id="goal-entries">
-                    <!-- Goal entries will be added dynamically here -->
-                </div>
-                <button onclick="addGoalEntry()">Add Goal</button>
-                <button onclick="saveGameData()">Save Game Data</button>
-            </div>
-            <div id="game-summary">
-                <!-- Game summary will be displayed here -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div id="software-version">Version 1.0.0</div>
-    </footer>
-
-    <script src="script.js"></script>
+    <h1 id="title">Football Team Management</h1>
+    <div id="language-select">
+        <label for="language">Language:</label>
+        <select id="language" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+        </select>
+    </div>
+    <div id="main">
+        <h2 id="enter-players-title">Enter Players</h2>
+        <form id="playerForm">
+            <input type="text" id="playerName" placeholder="Player Name" required>
+            <input type="number" id="playerLevel" placeholder="Player Level (1-5)" min="1" max="5" required>
+            <input type="file" id="playerImage" accept="image/*">
+            <button type="submit" id="add-player-button">Add Player</button>
+        </form>
+        <h3 id="player-list-title">Player List</h3>
+        <select id="existingPlayers">
+            <option value="">Choose existing player</option>
+        </select>
+        <ul id="playerList"></ul>
+        <button id="randomPlayers">Choose Random 18 Players</button>
+        <p id="playerCount">Players chosen: 0/18. 18 more needed.</p>
+        <button id="createTeams">Create Teams</button>
+        <button onclick="window.location.href='game-data.html'">Enter Game Data</button>
+        <div id="teams"></div>
+    </div>
+    <p id="version">Software Version: 1.0.0</p>
+    <script src="scripts.js"></script>
 </body>
 </html>
