@@ -16,26 +16,17 @@
         </select>
     </div>
     <div id="main">
-        <h2 id="setup-title">Setup Game</h2>
-        <form id="setupForm">
-            <label for="numPlayers">Number of Players:</label>
-            <input type="number" id="numPlayers" min="2" required>
-            <label for="numTeams">Number of Teams:</label>
-            <input type="number" id="numTeams" min="2" required>
-            <button type="submit" id="setup-button">Setup</button>
+        <h2 id="enter-players-title">Enter Players</h2>
+        <form id="playerForm">
+            <input type="text" id="playerName" placeholder="Player Name" required>
+            <input type="number" id="playerLevel" placeholder="Player Level (1-5)" min="1" max="5" required>
+            <button type="submit" id="add-player-button">Add Player</button>
         </form>
-        <div id="playerFormContainer" style="display:none;">
-            <h2 id="enter-players-title">Enter Players</h2>
-            <form id="playerForm">
-                <input type="text" id="playerName" placeholder="Player Name" required>
-                <input type="number" id="playerLevel" placeholder="Player Level (1-5)" min="1" max="5" required>
-                <button type="submit" id="add-player-button">Add Player</button>
-            </form>
-            <h3 id="player-list-title">Player List</h3>
-            <ul id="playerList"></ul>
-            <button id="createTeams">Create Teams</button>
-            <div id="teams"></div>
-        </div>
+        <h3 id="player-list-title">Player List</h3>
+        <ul id="playerList"></ul>
+        <button id="createTeams">Create Teams</button>
+        <div id="teams"></div>
+        <button id="manageGameData" style="display:none;">Manage Game Data</button>
     </div>
     <p id="version">Software Version: 1.0.0</p>
     <script src="scripts.js"></script>
