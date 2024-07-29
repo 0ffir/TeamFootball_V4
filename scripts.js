@@ -1,32 +1,31 @@
 let players = [];
-let preExistingPlayers = [
-    { name: "Player 1", skill: 3 },
-    { name: "Player 2", skill: 4 },
-    { name: "Player 3", skill: 2 },
-    { name: "Player 4", skill: 5 },
-    { name: "Player 5", skill: 1 },
-    { name: "Player 6", skill: 3 },
-    { name: "Player 7", skill: 4 },
-    { name: "Player 8", skill: 2 },
-    { name: "Player 9", skill: 5 },
-    { name: "Player 10", skill: 1 },
-    { name: "Player 11", skill: 3 },
-    { name: "Player 12", skill: 4 },
-    { name: "Player 13", skill: 2 },
-    { name: "Player 14", skill: 5 },
-    { name: "Player 15", skill: 1 },
-    { name: "Player 16", skill: 3 },
-    { name: "Player 17", skill: 4 },
-    { name: "Player 18", skill: 2 },
+const preExistingPlayers = [
+    { name: "Lionel Messi", skill: 5 },
+    { name: "Cristiano Ronaldo", skill: 5 },
+    { name: "Neymar Jr", skill: 5 },
+    { name: "Kylian Mbappe", skill: 5 },
+    { name: "Luka Modric", skill: 4 },
+    { name: "Sergio Ramos", skill: 4 },
+    { name: "Virgil van Dijk", skill: 4 },
+    { name: "Kevin De Bruyne", skill: 5 },
+    { name: "Mohamed Salah", skill: 5 },
+    { name: "Harry Kane", skill: 4 },
+    { name: "Eden Hazard", skill: 4 },
+    { name: "Sadio Mane", skill: 4 },
+    { name: "Robert Lewandowski", skill: 5 },
+    { name: "Paulo Dybala", skill: 4 },
+    { name: "Antoine Griezmann", skill: 4 },
+    { name: "Raheem Sterling", skill: 4 },
+    { name: "Sergio Aguero", skill: 4 },
+    { name: "Kante", skill: 4 }
 ];
 
 function addPlayer() {
     const name = document.getElementById("player-name").value;
     const skill = parseInt(document.getElementById("player-skill").value);
-    const image = document.getElementById("player-image").files[0];
 
     if (name && skill >= 1 && skill <= 5) {
-        players.push({ name, skill, image });
+        players.push({ name, skill });
         updatePlayerList();
         updatePlayerCount();
     } else {
@@ -34,11 +33,18 @@ function addPlayer() {
     }
 }
 
+function autoAddPlayers() {
+    players = [...preExistingPlayers];
+    updatePlayerList();
+    updatePlayerCount();
+}
+
 function updatePlayerList() {
     const playerList = document.getElementById("player-list");
     playerList.innerHTML = "";
     players.forEach(player => {
         const playerItem = document.createElement("div");
+        playerItem.className = "player-item";
         playerItem.innerText = `${player.name} - Skill: ${player.skill}`;
         playerList.appendChild(playerItem);
     });
@@ -50,8 +56,8 @@ function updatePlayerCount() {
 }
 
 function createTeams() {
-    if (players.length < 18) {
-        alert("Please choose at least 18 players.");
+    if (players.length !== 18) {
+        alert("Please choose exactly 18 players.");
         return;
     }
 
@@ -75,9 +81,11 @@ function displayTeams(teams) {
 
     teams.forEach((team, index) => {
         const teamDiv = document.createElement("div");
+        teamDiv.className = "team";
         teamDiv.innerHTML = `<h3>Team ${index + 1}</h3>`;
         team.forEach(player => {
             const playerItem = document.createElement("div");
+            playerItem.className = "player-item";
             playerItem.innerText = `${player.name} - Skill: ${player.skill}`;
             teamDiv.appendChild(playerItem);
         });
