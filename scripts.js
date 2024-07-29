@@ -1,26 +1,15 @@
 const softwareVersion = "1.0.0";
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    // Default username and password
-    const defaultUsername = 'admin';
-    const defaultPassword = 'admin';
-    
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    
-    if (username === defaultUsername && password === defaultPassword) {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('main').style.display = 'block';
-        populateExistingPlayers();
-    } else {
-        alert('Invalid login');
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('playerForm')) {
+        setupPlayerManagement();
     }
+    if (document.getElementById('team1')) {
+        setupGameDataEntry();
+    }
+    document.getElementById('version').innerText = `Software Version: ${softwareVersion}`;
 });
 
-const playerForm = document.getElementById('playerForm');
-const playerList = document.getElementById('playerList');
 const existingPlayers = [
     { name: "Lionel Messi", level: 5, image: null },
     { name: "Cristiano Ronaldo", level: 5, image: null },
@@ -43,38 +32,50 @@ const existingPlayers = [
 ];
 const players = [];
 
-playerForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('playerName').value;
-    const level = parseInt(document.getElementById('playerLevel').value);
-    const image = document.getElementById('playerImage').files[0];
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const player = {
-            name: name,
-            level: level,
-            image: e.target.result
+function setupPlayerManagement() {
+    const playerForm = document.getElementById('playerForm');
+    const playerList = document.getElementById('playerList');
+
+    playerForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('playerName').value;
+        const level = parseInt(document.getElementById('playerLevel').value);
+        const image = document.getElementById('playerImage').files[0];
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const player = {
+                name: name,
+                level: level,
+                image: e.target.result
+            };
+            players.push(player);
+            updatePlayerList();
         };
-        players.push(player);
-        updatePlayerList();
-    };
-    if (image) {
-        reader.readAsDataURL(image);
-    } else {
-        const player = {
-            name: name,
-            level: level,
-            image: null
-        };
-        players.push(player);
-        updatePlayerList();
-    }
+        if (image) {
+            reader.readAsDataURL(image);
+        } else {
+            const player = {
+                name: name,
+                level: level,
+                image: null
+            };
+            players.push(player);
+            updatePlayerList();
+        }
+        updatePlayerCount();
+    });
+
+    document.getElementById('createTeams').addEventListener('click', createTeams);
+    document.getElementById('randomPlayers').addEventListener('click', chooseRandomPlayers);
+
+    populateExistingPlayers();
     updatePlayerCount();
-});
+}
 
 function updatePlayerList() {
+    const playerList = document.getElementById('playerList');
     playerList.innerHTML = '';
     players.forEach((player, index) => {
         const li = document.createElement('li');
@@ -101,7 +102,7 @@ function updatePlayerCount() {
     document.getElementById('playerCount').innerText = `Players chosen: ${count}/18. ${remaining > 0 ? `${remaining} more needed.` : 'Ready to create teams!'}`;
 }
 
-document.getElementById('createTeams').addEventListener('click', function() {
+function createTeams() {
     if (players.length !== 18) {
         alert(`Please choose ${18 - players.length} more players to create teams.`);
         return;
@@ -130,7 +131,7 @@ document.getElementById('createTeams').addEventListener('click', function() {
         });
         teamsContainer.appendChild(div);
     });
-});
+}
 
 function changeLanguage() {
     const language = document.getElementById('language').value;
@@ -149,31 +150,23 @@ function changeLanguage() {
     
     if (language === 'he') {
         elements.title.innerText = 'ניהול קבוצות כדורגל';
-        elements.loginTitle.innerText = 'התחברות';
-        elements.loginButton.innerText = 'התחבר';
         elements.enterPlayersTitle.innerText = 'הכנס שחקנים';
         elements.addPlayerButton.innerText = 'הוסף שחקן';
         elements.playerListTitle.innerText = 'רשימת שחקנים';
         elements.createTeamsButton.innerText = 'צור קבוצות';
         elements.playerCount.innerText = 'שחקנים שנבחרו: 0/18. צריך עוד 18.';
         elements.version.innerText = `גרסת תוכנה: ${softwareVersion}`;
-        document.getElementById('username').placeholder = 'שם משתמש';
-        document.getElementById('password').placeholder = 'סיסמה';
         document.getElementById('playerName').placeholder = 'שם השחקן';
         document.getElementById('playerLevel').placeholder = 'רמת השחקן (1-5)';
         document.getElementById('existingPlayers').firstChild.innerText = 'בחר שחקן קיים';
     } else {
         elements.title.innerText = 'Football Team Management';
-        elements.loginTitle.innerText = 'Login';
-        elements.loginButton.innerText = 'Login';
         elements.enterPlayersTitle.innerText = 'Enter Players';
         elements.addPlayerButton.innerText = 'Add Player';
         elements.playerListTitle.innerText = 'Player List';
         elements.createTeamsButton.innerText = 'Create Teams';
         elements.playerCount.innerText = 'Players chosen: 0/18. 18 more needed.';
         elements.version.innerText = `Software Version: ${softwareVersion}`;
-        document.getElementById('username').placeholder = 'Username';
-        document.getElementById('password').placeholder = 'Password';
         document.getElementById('playerName').placeholder = 'Player Name';
         document.getElementById('playerLevel').placeholder = 'Player Level (1-5)';
         document.getElementById('existingPlayers').firstChild.innerText = 'Choose existing player';
@@ -233,8 +226,88 @@ function chooseRandomPlayers() {
     updatePlayerList();
 }
 
-document.getElementById('existingPlayers').addEventListener('change', selectPlayer);
-document.getElementById('randomPlayers').addEventListener('click', chooseRandomPlayers);
+function setupGameDataEntry() {
+    const team1Select = document.getElementById('team1');
+    const team2Select = document.getElementById('team2');
+    const goalsContainer = document.getElementById('goals');
+    const gameSummary = document.getElementById('gameSummary');
+    
+    populateTeamDropdowns(team1Select, team2Select);
+    
+    document.getElementById('addGoal').addEventListener('click', function() {
+        addGoalEntry(goalsContainer);
+    });
+    
+    document.getElementById('saveGame').addEventListener('click', function() {
+        saveGameData();
+    });
+    
+    function populateTeamDropdowns(team1Select, team2Select) {
+        players.forEach(player => {
+            const option1 = document.createElement('option');
+            option1.value = player.name;
+            option1.innerText = player.name;
+            team1Select.appendChild(option1);
+            
+            const option2 = document.createElement('option');
+            option2.value = player.name;
+            option2.innerText = player.name;
+            team2Select.appendChild(option2);
+        });
+    }
+    
+    function addGoalEntry(container) {
+        const goalEntry = document.createElement('div');
+        goalEntry.innerHTML = `
+            <select class="goalPlayer">
+                ${players.map(player => `<option value="${player.name}">${player.name}</option>`).join('')}
+            </select>
+            <button onclick="this.parentElement.remove()">Remove</button>
+        `;
+        container.appendChild(goalEntry);
+        updateGameSummary();
+    }
+    
+    function updateGameSummary() {
+        const team1 = team1Select.value;
+        const team2 = team2Select.value;
+        const goals = Array.from(document.querySelectorAll('.goalPlayer')).map(select => select.value);
+        
+        let summary = `<p>Team 1: ${team1}</p>`;
+        summary += `<p>Team 2: ${team2}</p>`;
+        summary += '<p>Goals:</p><ul>';
+        goals.forEach(goal => {
+            summary += `<li>${goal}</li>`;
+        });
+        summary += '</ul>';
+        
+        gameSummary.innerHTML = summary;
+    }
+    
+    function saveGameData() {
+        const team1 = team1Select.value;
+        const team2 = team2Select.value;
+        const goals = Array.from(document.querySelectorAll('.goalPlayer')).map(select => select.value);
+        
+        const gameData = {
+            team1: team1,
+            team2: team2,
+            goals: goals
+        };
+        
+        const gameDataJson = JSON.stringify(gameData);
+        const blob = new Blob([gameDataJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'game-data.json';
+        a.click();
+        
+        URL.revokeObjectURL(url);
+        alert('Game data saved!');
+    }
+}
 
 // Initialize language to English and populate existing players
 changeLanguage();
