@@ -1,10 +1,14 @@
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    // Simple login mechanism
+    
+    // Default username and password
+    const defaultUsername = 'admin';
+    const defaultPassword = 'admin';
+    
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     
-    if (username === 'admin' && password === 'admin') {
+    if (username === defaultUsername && password === defaultPassword) {
         document.getElementById('login').style.display = 'none';
         document.getElementById('main').style.display = 'block';
     } else {
