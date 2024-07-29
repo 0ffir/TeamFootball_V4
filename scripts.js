@@ -11,6 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     if (username === defaultUsername && password === defaultPassword) {
         document.getElementById('login').style.display = 'none';
         document.getElementById('main').style.display = 'block';
+        populateExistingPlayers();
     } else {
         alert('Invalid login');
     }
@@ -18,6 +19,26 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 const playerForm = document.getElementById('playerForm');
 const playerList = document.getElementById('playerList');
+const existingPlayers = [
+    { name: "Lionel Messi", level: 5, image: null },
+    { name: "Cristiano Ronaldo", level: 5, image: null },
+    { name: "Neymar", level: 4, image: null },
+    { name: "Kylian Mbappe", level: 4, image: null },
+    { name: "Kevin De Bruyne", level: 4, image: null },
+    { name: "Robert Lewandowski", level: 4, image: null },
+    { name: "Sergio Ramos", level: 4, image: null },
+    { name: "Luka Modric", level: 4, image: null },
+    { name: "Mohamed Salah", level: 4, image: null },
+    { name: "Virgil van Dijk", level: 4, image: null },
+    { name: "Karim Benzema", level: 4, image: null },
+    { name: "Erling Haaland", level: 4, image: null },
+    { name: "Harry Kane", level: 4, image: null },
+    { name: "Sadio Mane", level: 4, image: null },
+    { name: "Eden Hazard", level: 4, image: null },
+    { name: "Raheem Sterling", level: 4, image: null },
+    { name: "Antoine Griezmann", level: 4, image: null },
+    { name: "Paul Pogba", level: 4, image: null }
+];
 const players = [];
 
 playerForm.addEventListener('submit', function(event) {
@@ -104,26 +125,4 @@ function changeLanguage() {
         elements.title.innerText = 'ניהול קבוצות כדורגל';
         elements.loginTitle.innerText = 'התחברות';
         elements.loginButton.innerText = 'התחבר';
-        elements.enterPlayersTitle.innerText = 'הכנס שחקנים';
-        elements.addPlayerButton.innerText = 'הוסף שחקן';
-        elements.playerListTitle.innerText = 'רשימת שחקנים';
-        document.getElementById('username').placeholder = 'שם משתמש';
-        document.getElementById('password').placeholder = 'סיסמה';
-        document.getElementById('playerName').placeholder = 'שם השחקן';
-        document.getElementById('playerLevel').placeholder = 'רמת השחקן (1-5)';
-    } else {
-        elements.title.innerText = 'Football Team Management';
-        elements.loginTitle.innerText = 'Login';
-        elements.loginButton.innerText = 'Login';
-        elements.enterPlayersTitle.innerText = 'Enter Players';
-        elements.addPlayerButton.innerText = 'Add Player';
-        elements.playerListTitle.innerText = 'Player List';
-        document.getElementById('username').placeholder = 'Username';
-        document.getElementById('password').placeholder = 'Password';
-        document.getElementById('playerName').placeholder = 'Player Name';
-        document.getElementById('playerLevel').placeholder = 'Player Level (1-5)';
-    }
-}
-
-// Initialize language to English
-changeLanguage();
+        elements.enter
