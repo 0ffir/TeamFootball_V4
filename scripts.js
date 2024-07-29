@@ -125,4 +125,49 @@ function changeLanguage() {
         elements.title.innerText = 'ניהול קבוצות כדורגל';
         elements.loginTitle.innerText = 'התחברות';
         elements.loginButton.innerText = 'התחבר';
-        elements.enter
+        elements.enterPlayersTitle.innerText = 'הכנס שחקנים';
+        elements.addPlayerButton.innerText = 'הוסף שחקן';
+        elements.playerListTitle.innerText = 'רשימת שחקנים';
+        document.getElementById('username').placeholder = 'שם משתמש';
+        document.getElementById('password').placeholder = 'סיסמה';
+        document.getElementById('playerName').placeholder = 'שם השחקן';
+        document.getElementById('playerLevel').placeholder = 'רמת השחקן (1-5)';
+        document.getElementById('existingPlayers').firstChild.innerText = 'בחר שחקן קיים';
+    } else {
+        elements.title.innerText = 'Football Team Management';
+        elements.loginTitle.innerText = 'Login';
+        elements.loginButton.innerText = 'Login';
+        elements.enterPlayersTitle.innerText = 'Enter Players';
+        elements.addPlayerButton.innerText = 'Add Player';
+        elements.playerListTitle.innerText = 'Player List';
+        document.getElementById('username').placeholder = 'Username';
+        document.getElementById('password').placeholder = 'Password';
+        document.getElementById('playerName').placeholder = 'Player Name';
+        document.getElementById('playerLevel').placeholder = 'Player Level (1-5)';
+        document.getElementById('existingPlayers').firstChild.innerText = 'Choose existing player';
+    }
+}
+
+function populateExistingPlayers() {
+    const select = document.getElementById('existingPlayers');
+    existingPlayers.forEach(player => {
+        const option = document.createElement('option');
+        option.value = player.name;
+        option.innerText = `${player.name} - Level: ${player.level}`;
+        select.appendChild(option);
+    });
+}
+
+function selectPlayer() {
+    const selectedName = document.getElementById('existingPlayers').value;
+    if (selectedName) {
+        const selectedPlayer = existingPlayers.find(player => player.name === selectedName);
+        if (selectedPlayer) {
+            players.push(selectedPlayer);
+            updatePlayerList();
+        }
+    }
+}
+
+// Initialize language to English and populate existing players
+changeLanguage();
