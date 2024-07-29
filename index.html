@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Team App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Football Team Management</h1>
+    <div id="login">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div id="main" style="display:none;">
+        <h2>Enter Players</h2>
+        <form id="playerForm">
+            <input type="text" id="playerName" placeholder="Player Name" required>
+            <input type="number" id="playerLevel" placeholder="Player Level (1-5)" min="1" max="5" required>
+            <input type="file" id="playerImage" accept="image/*">
+            <button type="submit">Add Player</button>
+        </form>
+        <h3>Player List</h3>
+        <ul id="playerList"></ul>
+        <button id="createTeams">Create Teams</button>
+        <div id="teams"></div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
