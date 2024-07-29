@@ -2,25 +2,14 @@ const softwareVersion = "1.0.0";
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('version').innerText = `Software Version: ${softwareVersion}`;
-    setupInitialForm();
+    setupPlayerManagement();
     loadSavedPlayers();
 });
 
 const savedPlayers = JSON.parse(localStorage.getItem('players')) || [];
 const players = [...savedPlayers];
 
-function setupInitialForm() {
-    const setupForm = document.getElementById('setupForm');
-    setupForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const numPlayers = document.getElementById('numPlayers').value;
-        const numTeams = document.getElementById('numTeams').value;
-        setupPlayerForm(numPlayers, numTeams);
-    });
-}
-
-function setupPlayerForm(numPlayers, numTeams) {
-    document.getElementById('playerFormContainer').style.display = 'block';
+function setupPlayerManagement() {
     const playerForm = document.getElementById('playerForm');
     playerForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -35,6 +24,11 @@ function setupPlayerForm(numPlayers, numTeams) {
         players.push(player);
         updatePlayerList();
         savePlayers();
+    });
+
+    document.getElementById('createTeams').addEventListener('click', createTeams);
+    document.getElementById('manageGameData').addEventListener('click', function() {
+        window.location.href = 'game-data.html';
     });
 }
 
@@ -66,7 +60,7 @@ function loadSavedPlayers() {
 }
 
 function createTeams() {
-    const numTeams = document.getElementById('numTeams').value;
+    const numTeams = 3; // Fixed number of teams for simplicity
     const teams = Array.from({ length: numTeams }, () => []);
     
     players.sort((a, b) => b.level - a.level);
@@ -89,6 +83,14 @@ function createTeams() {
         });
         teamsContainer.appendChild(div);
     });
+
+    document.getElementById('manageGameData').style.display = 'block';
 }
 
-document.getElementById('createTeams').addEventListener('click', createTeams);
+function changeLanguage() {
+    const language = document.getElementById('language').value;
+    // Update UI texts based on selected language...
+}
+
+// Initialize language to English and populate existing players
+changeLanguage();
