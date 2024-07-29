@@ -87,3 +87,43 @@ document.getElementById('createTeams').addEventListener('click', function() {
         teamsContainer.appendChild(div);
     });
 });
+
+function changeLanguage() {
+    const language = document.getElementById('language').value;
+    
+    const elements = {
+        title: document.getElementById('title'),
+        loginTitle: document.getElementById('login-title'),
+        loginButton: document.getElementById('login-button'),
+        enterPlayersTitle: document.getElementById('enter-players-title'),
+        addPlayerButton: document.getElementById('add-player-button'),
+        playerListTitle: document.getElementById('player-list-title')
+    };
+    
+    if (language === 'he') {
+        elements.title.innerText = 'ניהול קבוצות כדורגל';
+        elements.loginTitle.innerText = 'התחברות';
+        elements.loginButton.innerText = 'התחבר';
+        elements.enterPlayersTitle.innerText = 'הכנס שחקנים';
+        elements.addPlayerButton.innerText = 'הוסף שחקן';
+        elements.playerListTitle.innerText = 'רשימת שחקנים';
+        document.getElementById('username').placeholder = 'שם משתמש';
+        document.getElementById('password').placeholder = 'סיסמה';
+        document.getElementById('playerName').placeholder = 'שם השחקן';
+        document.getElementById('playerLevel').placeholder = 'רמת השחקן (1-5)';
+    } else {
+        elements.title.innerText = 'Football Team Management';
+        elements.loginTitle.innerText = 'Login';
+        elements.loginButton.innerText = 'Login';
+        elements.enterPlayersTitle.innerText = 'Enter Players';
+        elements.addPlayerButton.innerText = 'Add Player';
+        elements.playerListTitle.innerText = 'Player List';
+        document.getElementById('username').placeholder = 'Username';
+        document.getElementById('password').placeholder = 'Password';
+        document.getElementById('playerName').placeholder = 'Player Name';
+        document.getElementById('playerLevel').placeholder = 'Player Level (1-5)';
+    }
+}
+
+// Initialize language to English
+changeLanguage();
