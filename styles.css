@@ -3,10 +3,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background-color: #0066cc;
     color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -19,7 +20,12 @@ h1 {
 }
 
 #language-switcher button {
+    background-color: #fff;
+    color: #0066cc;
+    border: none;
+    padding: 5px 10px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 main {
@@ -39,13 +45,32 @@ h2 {
 }
 
 #add-player-form input,
-#add-player-form button {
+#add-player-form button,
+#pre-existing-players button {
     margin: 5px 0;
     display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#add-player-form button,
+#pre-existing-players button {
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
 #player-list {
     margin-top: 10px;
+}
+
+.player-item {
+    background-color: #eee;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
 }
 
 #player-count {
@@ -53,14 +78,20 @@ h2 {
     font-weight: bold;
 }
 
-#teams {
-    margin-top: 10px;
+#teams .team {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
 }
 
 #game-form select,
 #game-form button {
     margin: 5px 0;
     display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
 }
 
 #goal-entries {
